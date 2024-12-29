@@ -17,7 +17,7 @@ export const registryItemFileSchema = z.object({
 });
 
 export const registryItemSchema = z.object({
-	name: z.string(),
+	name: z.string().optional(),
 	type: registryItemTypeSchema.default("registry:ui"),
 	description: z.string().optional(),
 	dependencies: z.array(z.string()).optional().describe("npm dependencies"),

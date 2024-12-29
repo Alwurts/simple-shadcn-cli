@@ -5,6 +5,7 @@ import {
 	type registryItemTypeSchema,
 } from "../types/registry.js";
 import fs from "fs-extra";
+import path from "node:path";
 
 const REGISTRY_INDEX_WHITELIST: z.infer<typeof registryItemTypeSchema>[] = [
 	"registry:ui",
@@ -23,9 +24,29 @@ export async function buildFileIntoRegistry(registryItem: RegistryItem) {
 		files = await Promise.all(
 			registryItem.files.map(async (file) => {
 				const fileContent = await fs.readFile(file.path, "utf8");
+				const fileName = path.basename(file.path, path.extname(file.path));
+
+				let parsedPath: string;
+				switch (file.type) {
+					case "registry:ui":
+						parsedPath = `ui/${fileName}`;
+						break;
+					case "registry:lib":
+						parsedPath = `lib/${fileName}`;
+						break;
+					case "registry:hook":
+						parsedPath = `hooks/${fileName}`;
+						break;
+					case "registry:block":
+						parsedPath = `blocks/${fileName}`;
+						break;
+					default:
+						parsedPath = fileName;
+						break;
+				}
 
 				return {
-					path: file.path,
+					path: parsedPath,
 					type: file.type,
 					content: fileContent,
 				};

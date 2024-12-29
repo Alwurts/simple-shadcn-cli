@@ -42,8 +42,7 @@ async function collectRegistryItem(): Promise<RegistryItem> {
 		{
 			type: "input",
 			name: "name",
-			message: "Enter the name of the registry item:",
-			validate: (input: string) => input.length > 0 || "Name is required",
+			message: "Enter the name of the registry item (optional, will use first file name if not specified):",
 		},
 		{
 			type: "list",
@@ -112,10 +111,20 @@ async function collectRegistryItem(): Promise<RegistryItem> {
 		}
 	} while (addMoreFiles);
 
-	const registryItem = {
+	let registryItem = {
 		...answers,
 		files,
 	};
+
+	// If name is not provided, derive it from the first file
+	if (!registryItem.name && files.length > 0) {
+		const firstFilePath = files[0].path;
+		const fileName = path.basename(firstFilePath, path.extname(firstFilePath));
+		registryItem = {
+			...registryItem,
+			name: fileName,
+		};
+	}
 
 	const parsedItem = registryItemSchema.safeParse(registryItem);
 	
