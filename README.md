@@ -1,34 +1,48 @@
 # simple-shadcn-cli
 
-A CLI tool for transforming files into JSON format with specific registry types.
+A CLI tool for creating shadcn-cli custom registry items
 
-## Installation
+## Features
 
-```bash
-npm install -g simple-shadcn-cli
-```
+- Interactive CLI interface
+- Support for multiple registry types
+- Multiple file support per registry item
+- Automatic directory creation
+- File overwrite protection
 
 ## Usage
 
 Run the CLI tool:
 
 ```bash
-simple-shadcn-cli
+npx simple-shadcn-cli
 ```
 
-The CLI will prompt you for:
+The CLI will guide you through an interactive process to:
 
-1. The path to the input file you want to transform
-2. The type of registry (ui or hook)
-3. The path where you want to save the output JSON file
+1. Specify output directory (defaults to `public/registry`)
 
-### Features
+2. Enter registry item details:
+   - Name (optional, will use first file name if not specified)
+   - Type (ui, lib, hook, or block)
+   - Description (optional)
+   - Dependencies (optional)
+   - Dev Dependencies (optional)
+   - Registry Dependencies (optional)
 
-- Cross-platform compatibility (Windows, Linux, Mac)
-- Interactive prompts for file paths and registry type
-- Automatic directory creation if output path doesn't exist
-- Confirmation prompt before overwriting existing files
-- Pretty-printed JSON output
+3. Add one or more files:
+   - File path
+   - File type (ui, lib, hook, or block)
+   - Option to add multiple files
+
+### Registry Types
+
+The tool supports the following registry types:
+
+- `registry:ui` - UI components
+- `registry:lib` - Library utilities
+- `registry:hook` - React hooks
+- `registry:block` - Block components
 
 ### Output Format
 
@@ -36,10 +50,35 @@ The tool generates a JSON file with the following structure:
 
 ```json
 {
-  "type": "registry:ui" | "registry:hook",
-  "content": "your file content here"
+  "name": "component-name",
+  "type": "registry:ui",
+  "description": "Optional description",
+  "dependencies": ["optional-dependencies"],
+  "devDependencies": ["optional-dev-dependencies"],
+  "registryDependencies": ["optional-registry-dependencies"],
+  "files": [
+    {
+      "path": "ui/component.tsx",
+      "type": "registry:ui",
+      "content": "file content here"
+    }
+  ]
 }
 ```
+
+## Exposing your registry item to the public with shadcn-cli
+
+To use this registry item with the shadcn-cli expose the created json file. For example you can add it to your website public folder or expose it as Github Gist. Below is an example of how easily deploy too a gist and use it with shadcn-cli.
+
+### Github Gist
+
+1. Create a gist with the json file
+2. Get the gist raw url
+3. Use the gist raw url with the shadcn-cli add command
+
+    ```bash
+    npx shadcn@latest add https://gist.githubusercontent.com/your-username/your-gist-id/raw/your-file.json
+    ```
 
 ## Development
 
