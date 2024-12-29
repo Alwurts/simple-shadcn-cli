@@ -4,7 +4,7 @@
   "description": "",
   "files": [
     {
-      "path": "ui/button-big",
+      "path": "ui/button-big.tsx",
       "content": "export function ButtonBig() {\n\treturn (\n\t\t<button\n\t\t\ttype=\"button\"\n\t\t\tstyle={{\n\t\t\t\tbackgroundColor: \"red\",\n\t\t\t\tcolor: \"white\",\n\t\t\t\tfontSize: \"16px\",\n\t\t\t\tpadding: \"10px 20px\",\n\t\t\t\tborderRadius: \"5px\",\n\t\t\t\tborder: \"none\",\n\t\t\t\tcursor: \"pointer\",\n\t\t\t}}\n\t\t>\n\t\t\tButton Big\n\t\t</button>\n\t);\n}\n",
       "type": "registry:ui"
     }

@@ -24,7 +24,7 @@ export async function buildFileIntoRegistry(registryItem: RegistryItem) {
 		files = await Promise.all(
 			registryItem.files.map(async (file) => {
 				const fileContent = await fs.readFile(file.path, "utf8");
-				const fileName = path.basename(file.path, path.extname(file.path));
+				const fileName = path.basename(file.path);
 
 				let parsedPath: string;
 				switch (file.type) {
