@@ -1,35 +1,44 @@
 {
-  "name": "simple-shadcn-cli",
-  "version": "1.0.0",
-  "description": "CLI tool for transforming files into JSON format",
-  "main": "dist/index.js",
-  "type": "module",
-  "bin": {
-    "simple-shadcn-cli": "./dist/index.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "node --loader ts-node/esm src/index.ts"
-  },
-  "keywords": [
-    "cli",
-    "shadcn",
-    "transformer"
-  ],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
-    "@types/inquirer": "^9.0.7",
-    "@types/node": "^20.11.24",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "commander": "^12.0.0",
-    "fs-extra": "^11.2.0",
-    "inquirer": "^9.2.15",
-    "zod": "^3.24.1"
-  }
+	"name": "simple-shadcn-cli",
+	"version": "0.1.0",
+	"description": "CLI tool for creating shadcn-cli custom registry items",
+	"main": "dist/index.js",
+	"type": "module",
+	"bin": {
+		"simple-shadcn-cli": "./dist/index.js"
+	},
+	"files": ["dist", "README.md"],
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/index.js",
+		"dev": "node --loader ts-node/esm src/index.ts",
+		"prepublishOnly": "npm run build"
+	},
+	"keywords": ["cli", "shadcn", "registry", "ui", "components"],
+	"author": "",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Alwurts/simple-shadcn-cli.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Alwurts/simple-shadcn-cli/issues"
+	},
+	"homepage": "https://github.com/Alwurts/simple-shadcn-cli#readme",
+	"engines": {
+		"node": ">=14.16"
+	},
+	"devDependencies": {
+		"@types/fs-extra": "^11.0.4",
+		"@types/inquirer": "^9.0.7",
+		"@types/node": "^20.11.24",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"commander": "^12.0.0",
+		"fs-extra": "^11.2.0",
+		"inquirer": "^9.2.15",
+		"zod": "^3.24.1"
+	}
 }
