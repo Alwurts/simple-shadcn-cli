@@ -42,7 +42,6 @@ The tool supports the following registry types:
 - `registry:ui` - UI components
 - `registry:lib` - Library utilities
 - `registry:hook` - React hooks
-- `registry:block` - Block components
 
 ### Output Format
 
@@ -80,6 +79,11 @@ To use this registry item with the shadcn-cli expose the created json file. For 
     npx shadcn@latest add https://gist.githubusercontent.com/your-username/your-gist-id/raw/your-file.json
     ```
 
+## Comming soon
+
+- [ ] Add support for all registry types currently we are only supporting ui, lib, and hook
+- [ ] Add a configuration file where you can specify the output directory, and registry items you want to create
+
 ## Development
 
 To set up the development environment:
@@ -101,4 +105,4 @@ npm run dev
 
 ## License
 
-ISC
+MIT

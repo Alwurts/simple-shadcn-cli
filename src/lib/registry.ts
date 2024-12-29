@@ -11,7 +11,6 @@ const REGISTRY_INDEX_WHITELIST: z.infer<typeof registryItemTypeSchema>[] = [
 	"registry:ui",
 	"registry:lib",
 	"registry:hook",
-	"registry:block",
 ];
 
 export async function buildFileIntoRegistry(registryItem: RegistryItem) {
@@ -37,9 +36,9 @@ export async function buildFileIntoRegistry(registryItem: RegistryItem) {
 					case "registry:hook":
 						parsedPath = `hooks/${fileName}`;
 						break;
-					case "registry:block":
+					/* case "registry:block":
 						parsedPath = `blocks/${fileName}`;
-						break;
+						break; */
 					default:
 						parsedPath = fileName;
 						break;
