@@ -139,17 +139,18 @@ async function collectAnswers(): Promise<{
 
 async function saveRegistryCreated({
 	outputDir,
-	registryItem,
-	registryItemJson,
+	registryItemWithContent,
 }: {
 	outputDir: string;
-	registryItem: RegistryItem;
-	registryItemJson: string;
+	registryItemWithContent: RegistryItem;
 }): Promise<void> {
 	try {
 		await checkAndCreateDirectory(outputDir);
 
-		const outputPath = path.join(outputDir, `${registryItem.name}.json`);
+		const outputPath = path.join(
+			outputDir,
+			`${registryItemWithContent.name}.json`,
+		);
 
 		// Check if output file exists
 		const outputExists = await checkFileExists(outputPath);
@@ -169,7 +170,10 @@ async function saveRegistryCreated({
 			}
 		}
 
-		await fs.writeFile(outputPath, registryItemJson);
+		await fs.writeFile(
+			outputPath,
+			JSON.stringify(registryItemWithContent, null, 2),
+		);
 		console.log(`\nRegistry item successfully saved to ${outputPath}!`);
 	} catch (error) {
 		console.error("Error during file transformation:", error);
@@ -179,6 +183,9 @@ async function saveRegistryCreated({
 
 export async function createCommand(): Promise<void> {
 	const { registryItem, outputDir } = await collectAnswers();
-	const registryItemJson = await parseContentOfRegistryFile(registryItem);
-	await saveRegistryCreated({ registryItem, registryItemJson, outputDir });
+	const registryItemParsed = await parseContentOfRegistryFile(registryItem);
+	await saveRegistryCreated({
+		registryItemWithContent: registryItemParsed,
+		outputDir,
+	});
 }

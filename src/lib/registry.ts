@@ -7,13 +7,20 @@ import {
 import fs from "fs-extra";
 import path from "node:path";
 
-export async function parseContentOfRegistryFile(registryItem: RegistryItem) {
+export async function parseContentOfRegistryFile(
+	registryItem: RegistryItem,
+	registryDirectory?: string,
+) {
 	try {
 		let files: RegistryItem["files"];
 		if (registryItem.files) {
 			files = await Promise.all(
 				registryItem.files.map(async (file) => {
-					const fileContent = await fs.readFile(file.path, "utf8");
+					const filePath = registryDirectory
+						? path.join(registryDirectory, file.path)
+						: file.path;
+
+					const fileContent = await fs.readFile(filePath, "utf8");
 
 					const fileName = path.basename(file.path);
 
@@ -50,9 +57,11 @@ export async function parseContentOfRegistryFile(registryItem: RegistryItem) {
 			files,
 		});
 
-		const outputJson = JSON.stringify(registryItemWithContent.data, null, 2);
+		return registryItemWithContent.data as RegistryItem;
 
-		return outputJson;
+		/* const outputJson = JSON.stringify(registryItemWithContent.data, null, 2);
+
+		return outputJson; */
 	} catch (error) {
 		console.error("Error during file transformation:", error);
 		process.exit(1);

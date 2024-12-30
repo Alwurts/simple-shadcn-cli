@@ -7,7 +7,10 @@
 	"bin": {
 		"simple-shadcn-cli": "./dist/index.js"
 	},
-	"files": ["dist", "README.md"],
+	"files": [
+		"dist",
+		"README.md"
+	],
 	"scripts": {
 		"build": "tsc",
 		"start": "npm run build && node dist/index.js",
@@ -16,7 +19,13 @@
 		"dev": "node --loader ts-node/esm src/index.ts",
 		"prepublishOnly": "npm run build"
 	},
-	"keywords": ["cli", "shadcn", "registry", "ui", "components"],
+	"keywords": [
+		"cli",
+		"shadcn",
+		"registry",
+		"ui",
+		"components"
+	],
 	"author": "",
 	"license": "ISC",
 	"repository": {
@@ -39,6 +48,7 @@
 	},
 	"dependencies": {
 		"commander": "^12.0.0",
+		"esbuild": "^0.24.2",
 		"fs-extra": "^11.2.0",
 		"inquirer": "^9.2.15",
 		"zod": "^3.24.1"
