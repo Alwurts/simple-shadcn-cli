@@ -54,6 +54,8 @@ The `create` command guides you through an interactive process to create individ
 
 The `build` command is designed for projects that want to maintain their registry components within their codebase. It automatically processes your registry components and generates the required JSON files.
 
+> Checkout the [example project](https://github.com/Alwurts/simple-shadcn-cli-demo) for a complete Vite and React.js example of how to use the build command.
+
 To use the build command:
 
 1. Create a `simple-shadcn.json` configuration file in your project root:
