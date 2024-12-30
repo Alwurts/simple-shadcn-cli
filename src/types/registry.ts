@@ -13,6 +13,8 @@ export const registryItemFileSchema = z.object({
 	target: z.string().optional(),
 });
 
+export type RegistryItemFile = z.infer<typeof registryItemFileSchema>;
+
 export const registryItemSchema = z.object({
 	name: z.string().optional(),
 	type: registryItemTypeSchema.default("registry:ui"),

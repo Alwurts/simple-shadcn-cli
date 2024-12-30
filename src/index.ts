@@ -4,43 +4,17 @@ import { Command } from "commander";
 import inquirer from "inquirer";
 import fs from "fs-extra";
 import path from "node:path";
-import { registryItemSchema, registryItemTypeSchema, type RegistryItem, type registryItemFileSchema } from "./types/registry.js";
+import {
+	registryItemSchema,
+	registryItemTypeSchema,
+	type RegistryItemFile,
+	type RegistryItem,
+} from "./types/registry.js";
+import type { TransformOptions, CliConfig } from "./types/cli.js";
 import { buildFileIntoRegistry } from "./lib/registry.js";
-import type { z } from "zod";
+import { checkAndCreateDirectory, checkFileExists } from "./lib/utils.js";
 
 const program = new Command();
-
-interface TransformOptions {
-	outputDir: string;
-}
-
-interface FileAnswer {
-	path: string;
-	type: z.infer<typeof registryItemTypeSchema>;
-}
-
-interface CliConfig {
-	outputDir: string;
-	registryDirectory: string;
-}
-
-async function checkAndCreateDirectory(dirPath: string): Promise<void> {
-	try {
-		await fs.ensureDir(dirPath);
-	} catch (error) {
-		console.error("Error creating directory:", error);
-		process.exit(1);
-	}
-}
-
-async function checkFileExists(filePath: string): Promise<boolean> {
-	try {
-		return await fs.pathExists(filePath);
-	} catch (error) {
-		console.error("Error checking file existence:", error);
-		process.exit(1);
-	}
-}
 
 async function loadConfig(): Promise<CliConfig | null> {
 	const configPath = path.join(process.cwd(), "simple-shadcn.json");
@@ -61,7 +35,8 @@ async function collectRegistryItem(): Promise<RegistryItem> {
 		{
 			type: "input",
 			name: "name",
-			message: "Enter the name of the registry item (optional, will use first file name if not specified):",
+			message:
+				"Enter the name of the registry item (optional, will use first file name if not specified):",
 		},
 		{
 			type: "list",
@@ -79,30 +54,34 @@ async function collectRegistryItem(): Promise<RegistryItem> {
 			type: "input",
 			name: "dependencies",
 			message: "Enter npm dependencies (comma-separated, optional):",
-			filter: (input: string) => input ? input.split(",").map(d => d.trim()) : undefined,
+			filter: (input: string) =>
+				input ? input.split(",").map((d) => d.trim()) : undefined,
 		},
 		{
 			type: "input",
 			name: "devDependencies",
 			message: "Enter npm dev dependencies (comma-separated, optional):",
-			filter: (input: string) => input ? input.split(",").map(d => d.trim()) : undefined,
+			filter: (input: string) =>
+				input ? input.split(",").map((d) => d.trim()) : undefined,
 		},
 		{
 			type: "input",
 			name: "registryDependencies",
-			message: "Enter shadcn-cli registry dependencies (comma-separated, optional):",
-			filter: (input: string) => input ? input.split(",").map(d => d.trim()) : undefined,
+			message:
+				"Enter shadcn-cli registry dependencies (comma-separated, optional):",
+			filter: (input: string) =>
+				input ? input.split(",").map((d) => d.trim()) : undefined,
 		},
 	];
 
 	const answers = await inquirer.prompt(questions);
-	
+
 	// Collect files (at least one is required)
-	const files: FileAnswer[] = [];
+	const files: RegistryItemFile[] = [];
 	let addMoreFiles = true;
 
 	do {
-		const fileAnswers = await inquirer.prompt<FileAnswer>([
+		const fileAnswers = await inquirer.prompt<RegistryItemFile>([
 			{
 				type: "input",
 				name: "path",
@@ -146,7 +125,7 @@ async function collectRegistryItem(): Promise<RegistryItem> {
 	}
 
 	const parsedItem = registryItemSchema.safeParse(registryItem);
-	
+
 	if (!parsedItem.success) {
 		console.error("Invalid registry item:", parsedItem.error);
 		process.exit(1);
@@ -167,7 +146,10 @@ async function transformFile(options: TransformOptions): Promise<void> {
 			process.exit(1);
 		}
 
-		const outputPath = path.join(options.outputDir, `${registryItem.name}.json`);
+		const outputPath = path.join(
+			options.outputDir,
+			`${registryItem.name}.json`,
+		);
 
 		// Check if output file exists
 		const outputExists = await checkFileExists(outputPath);
@@ -191,7 +173,7 @@ async function transformFile(options: TransformOptions): Promise<void> {
 		console.log(`Registry item successfully saved to ${outputPath}!`);
 	} catch (error) {
 		console.error("Error during file transformation:", error);
-			process.exit(1);
+		process.exit(1);
 	}
 }
 
@@ -214,9 +196,11 @@ async function createCommand(): Promise<void> {
 
 async function buildCommand(): Promise<void> {
 	const config = await loadConfig();
-	
+
 	if (!config) {
-		console.error("Configuration file not found. Please create a simple-shadcn.json file in your project root with the following structure:");
+		console.error(
+			"Configuration file not found. Please create a simple-shadcn.json file in your project root with the following structure:",
+		);
 		console.error(`{
   "registryDirectory": "path/to/your/registry/directory"
 }`);
