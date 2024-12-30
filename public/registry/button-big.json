@@ -1,7 +1,13 @@
 {
   "name": "button-big",
   "type": "registry:ui",
-  "description": "",
+  "description": "Test",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "badge"
+  ],
   "files": [
     {
       "path": "ui/button-big.tsx",
