@@ -9,8 +9,7 @@ const program = new Command();
 async function main() {
 	program
 		.name("simple-shadcn-cli")
-		.description("CLI tool for creating registry items")
-		.version("0.1.2");
+		.description("CLI tool for creating registry items");
 
 	program
 		.command("create")

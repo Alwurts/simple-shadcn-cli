@@ -4,21 +4,36 @@ A CLI tool for creating shadcn-cli custom registry items
 
 ## Features
 
-- Interactive CLI interface
+- Interactive CLI interface for creating individual registry items
+- Automated build process for project-wide registry components
 - Support for multiple registry types
 - Multiple file support per registry item
-- Automatic directory creation
 - File overwrite protection
+- TypeScript types for registry schema
+
+### shadcn CLI Registry Types
+
+The tool currently supports the following shadcn CLI registry types:
+
+- `registry:ui` - UI components
+- `registry:lib` - Library utilities
+- `registry:hook` - React hooks
 
 ## Usage
 
-Run the CLI tool:
+The CLI provides two main commands:
 
 ```bash
-npx simple-shadcn-cli
+# For interactive creation of single registry items
+npx simple-shadcn-cli create
+
+# For building registry items from your project
+npx simple-shadcn-cli build
 ```
 
-The CLI will guide you through an interactive process to:
+### Create Command
+
+The `create` command guides you through an interactive process to create individual registry items:
 
 1. Specify output directory (defaults to `public/registry`)
 
@@ -35,17 +50,89 @@ The CLI will guide you through an interactive process to:
    - File type (ui, lib, hook, or block)
    - Option to add multiple files
 
-### Registry Types
+### Build Command
 
-The tool supports the following registry types:
+The `build` command is designed for projects that want to maintain their registry components within their codebase. It automatically processes your registry components and generates the required JSON files.
 
-- `registry:ui` - UI components
-- `registry:lib` - Library utilities
-- `registry:hook` - React hooks
+To use the build command:
+
+1. Create a `simple-shadcn.json` configuration file in your project root:
+
+```json
+{
+  "outputDir": "public/registry",
+  "registryDirectory": "src/registry"
+}
+```
+
+Configuration options:
+
+- `outputDir`: Directory where the generated JSON files will be saved
+- `registryDirectory`: Directory containing your registry configuration and components
+
+2. Organize your registry components in the specified registry directory. Create an `index.ts` or `index.js` file that exports your registry configuration:
+
+```typescript
+export const registry = [
+  {
+    name: "button-big",
+    type: "registry:ui",
+    description: "A big button component",
+    files: [
+      {
+        path: "ui/button-big.tsx",
+        type: "registry:ui"
+      }
+    ]
+  }
+  // ... more registry items
+];
+```
+
+3. Run the build command:
+
+```bash
+npx simple-shadcn-cli build
+```
+
+The command will:
+
+- Parse your registry configuration
+- Process all component files
+- Generate JSON files in the specified output directory
+
+### TypeScript Types
+
+The CLI exports TypeScript types for the registry schema, making it easier to type your registry configuration:
+
+```typescript
+import type { Registry, RegistryItem, RegistryItemFile } from "simple-shadcn-cli";
+
+// Your registry configuration with proper typing
+export const registry: Registry = [
+  {
+    name: "button-big",
+    type: "registry:ui",
+    description: "A big button component",
+    files: [
+      {
+        path: "ui/button-big.tsx",
+        type: "registry:ui"
+      }
+    ]
+  }
+];
+```
+
+Available types:
+
+- `Registry`: Array of registry items
+- `RegistryItem`: Single registry item configuration
+- `RegistryItemFile`: File configuration within a registry item
 
 ### Output Format
 
-The tool generates a JSON file with the following structure:
+The tool generates JSON files with the following structure:
 
 ```json
 {
@@ -67,11 +154,11 @@ The tool generates a JSON file with the following structure:
 
 ## Exposing your registry item to the public with shadcn-cli
 
-To use this registry item with the shadcn-cli expose the created json file. For example you can add it to your website public folder or expose it as Github Gist. Below is an example of how easily deploy too a gist and use it with shadcn-cli.
+To use your registry items with the shadcn-cli, expose the created JSON files. For example, you can add them to your website public folder or expose them as Github Gists.
 
 ### Github Gist
 
-1. Create a gist with the json file
+1. Create a gist with the JSON file
 2. Get the gist raw url
 3. Use the gist raw url with the shadcn-cli add command
 
@@ -79,10 +166,10 @@ To use this registry item with the shadcn-cli expose the created json file. For 
     npx shadcn@latest add https://gist.githubusercontent.com/your-username/your-gist-id/raw/your-file.json
     ```
 
-## Comming soon
+## Coming soon
 
 - [ ] Add support for all registry types currently we are only supporting ui, lib, and hook
-- [ ] Add a configuration file where you can specify the output directory, and registry items you want to create
+- [x] Add more configuration options for build command
 
 ## Development
 
