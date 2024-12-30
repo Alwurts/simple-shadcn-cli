@@ -3,6 +3,17 @@
 	"version": "0.1.1",
 	"description": "CLI tool for creating shadcn-cli custom registry items",
 	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./types": {
+			"types": "./dist/types/registry.d.ts",
+			"default": "./dist/types/registry.js"
+		}
+	},
 	"type": "module",
 	"bin": {
 		"simple-shadcn-cli": "./dist/index.js"
