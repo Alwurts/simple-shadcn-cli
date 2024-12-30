@@ -10,7 +10,9 @@
 	"files": ["dist", "README.md"],
 	"scripts": {
 		"build": "tsc",
-		"start": "node dist/index.js",
+		"start": "npm run build && node dist/index.js",
+		"create:registry": "npm run build && node dist/index.js create",
+		"build:registry": "npm run build && node dist/index.js build",
 		"dev": "node --loader ts-node/esm src/index.ts",
 		"prepublishOnly": "npm run build"
 	},

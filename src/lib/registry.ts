@@ -7,17 +7,7 @@ import {
 import fs from "fs-extra";
 import path from "node:path";
 
-const REGISTRY_INDEX_WHITELIST: z.infer<typeof registryItemTypeSchema>[] = [
-	"registry:ui",
-	"registry:lib",
-	"registry:hook",
-];
-
 export async function buildFileIntoRegistry(registryItem: RegistryItem) {
-	if (!REGISTRY_INDEX_WHITELIST.includes(registryItem.type)) {
-		return;
-	}
-
 	let files: RegistryItem["files"];
 	if (registryItem.files) {
 		files = await Promise.all(
