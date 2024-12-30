@@ -1,6 +1,6 @@
 {
 	"name": "simple-shadcn-cli",
-	"version": "0.1.1",
+	"version": "1.0.0",
 	"description": "CLI tool for creating shadcn-cli custom registry items",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
