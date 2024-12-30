@@ -174,7 +174,6 @@ async function saveRegistryCreated({
 			outputPath,
 			JSON.stringify(registryItemWithContent, null, 2),
 		);
-		console.log(`\nRegistry item successfully saved to ${outputPath}!`);
 	} catch (error) {
 		console.error("Error during file transformation:", error);
 		process.exit(1);
@@ -188,4 +187,6 @@ export async function createCommand(): Promise<void> {
 		registryItemWithContent: registryItemParsed,
 		outputDir,
 	});
+
+	console.log(`\n> Registry item successfully saved to ${outputDir}!\n`);
 }

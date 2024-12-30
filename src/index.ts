@@ -10,7 +10,7 @@ async function main() {
 	program
 		.name("simple-shadcn-cli")
 		.description("CLI tool for creating registry items")
-		.version("0.1.1");
+		.version("0.1.2");
 
 	program
 		.command("create")
